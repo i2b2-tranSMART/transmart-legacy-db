@@ -5,7 +5,7 @@
  *
  * This product includes software developed at Janssen Research & Development, LLC.
  *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software  * Foundation, either version 3 of the License, or (at your option) any later version, along with the following terms:
  * 1.	You may convey a work based on this program in accordance with section 5, provided that you retain the above notices.
  * 2.	You may convey verbatim copies of this program code as you receive it, in any medium, provided that you retain the above notices.
@@ -17,7 +17,6 @@
  *
  ******************************************************************/
 
-
 package com.recomdata.transmart.domain.i2b2
 
 import groovy.time.TimeCategory
@@ -25,58 +24,51 @@ import groovy.time.TimeDuration
 
 class AsyncJob {
 
-    final Set<String> TERMINATION_STATES = ['Completed', 'Cancelled', 'Error'] as Set
+	static final Set<String> TERMINATION_STATES = ['Completed', 'Cancelled', 'Error']
 
-    String jobName
-    String jobStatus
-    Date lastRunOn
-    Date jobStatusTime
-    String viewerURL
-    String altViewerURL
-    String results
-    String jobType
-    String jobInputsJson
+	String altViewerURL
+	String jobInputsJson
+	String jobName
+	String jobStatus
+	Date jobStatusTime
+	String jobType
+	Date lastRunOn
+	String results
+	String viewerURL
 
-    static mapping = {
-        id generator: 'sequence',
-                params:    [sequence: 'hibernate_sequence', schema: 'searchapp']
-        table 'I2B2DEMODATA.ASYNC_JOB'
-        version false
-        jobName column: 'JOB_NAME'
-        jobStatus column: 'JOB_STATUS'
-        lastRunOn column: 'LAST_RUN_ON'
-        jobStatusTime column: 'JOB_STATUS_TIME'
-        viewerURL column: 'VIEWER_URL'
-        altViewerURL column: 'ALT_VIEWER_URL'
-        results column: 'JOB_RESULTS'
-        jobType column: 'JOB_TYPE'
-        jobInputsJson column: 'JOB_INPUTS_JSON'
-    }
+	static mapping = {
+		table 'I2B2DEMODATA.ASYNC_JOB'
+		id generator: 'sequence', params: [sequence: 'searchapp.hibernate_sequence']
+		version false
 
-    static constraints = {
-        jobName(nullable: true)
-        jobStatus(nullable: true)
-        lastRunOn(nullable: true)
-        jobStatusTime(nullable: true)
-        viewerURL(nullable: true)
-        altViewerURL(nullable: true)
-        results(nullable: true)
-        jobType(nullable: true)
-        jobInputsJson(nullable: true)
-    }
+		viewerURL column: 'VIEWER_URL'
+		altViewerURL column: 'ALT_VIEWER_URL'
+		results column: 'JOB_RESULTS'
+	}
 
-    TimeDuration getRunTime() {
-        def lastTime = TERMINATION_STATES.contains(jobStatus) ?
-                jobStatusTime : new Date()
-        lastRunOn && lastTime ? TimeCategory.minus(lastTime, lastRunOn) : null
-    }
+	static constraints = {
+		altViewerURL nullable: true
+		jobInputsJson nullable: true
+		jobName nullable: true
+		jobStatus nullable: true
+		jobStatusTime nullable: true
+		jobType nullable: true
+		lastRunOn nullable: true
+		results nullable: true
+		viewerURL nullable: true
+	}
 
-    void setJobStatus(String jobStatus) {
-        if (this.jobStatus == jobStatus) {
-            return
-        }
+	TimeDuration getRunTime() {
+		Date lastTime = TERMINATION_STATES.contains(jobStatus) ? jobStatusTime : new Date()
+		lastRunOn && lastTime ? TimeCategory.minus(lastTime, lastRunOn) : null
+	}
 
-        this.jobStatusTime = new Date()
-        this.jobStatus = jobStatus
-    }
+	void setJobStatus(String status) {
+		if (jobStatus == status) {
+			return
+		}
+
+		jobStatus = status
+		jobStatusTime = new Date()
+	}
 }

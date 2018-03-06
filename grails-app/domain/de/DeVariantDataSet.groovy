@@ -5,7 +5,7 @@
  *
  * This product includes software developed at Janssen Research & Development, LLC.
  *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software  * Foundation, either version 3 of the License, or (at your option) any later version, along with the following terms:
  * 1.	You may convey a work based on this program in accordance with section 5, provided that you retain the above notices.
  * 2.	You may convey verbatim copies of this program code as you receive it, in any medium, provided that you retain the above notices.
@@ -17,32 +17,24 @@
  *
  ******************************************************************/
 
-
 package de
 
 class DeVariantDataSet {
-    String id
-    String dataSource
-    String etlId
-    Date etlDate
-    String genomeVersion
-    String metadata
-    String varientDatasetType
+	String dataSource
+	Date etlDate
+	String etlId
+	String genomeVersion
+	String id
+	String metadata
+	String varientDatasetType
 
+	static mapping = {
+		table 'DEAPP.DE_VARIANT_DATASET'
+		id generator: 'assigned', column: 'DATASET_ID'
+		version false
 
-    static mapping = {
-        table 'DE_VARIANT_DATASET'
-        version false
-        id generator: 'assigned'
-        columns {
-            id column: 'DATASET_ID'
-            dataSource column: 'DATASOURCE_ID'
-            etlId column: 'ETL_ID'
-            etlDate column: 'ETL_DATE'
-            genomeVersion column: 'GENOME'
-            metadata column: 'METADATA_COMMENT'
-            varientDatasetType column: 'VARIANT_DATASET_TYPE'
-        }
-    }
-
+		dataSource column: 'DATASOURCE_ID'
+		genomeVersion column: 'GENOME'
+		metadata column: 'METADATA_COMMENT'
+	}
 }

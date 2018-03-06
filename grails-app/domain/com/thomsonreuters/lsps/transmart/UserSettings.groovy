@@ -1,49 +1,46 @@
 package com.thomsonreuters.lsps.transmart
 
 class UserSettings {
-    Long userId
-    String name
-    String value
+	Long userId
+	String name
+	String value
 
-    // static belongsTo = [AuthUser]
+	static mapping = {
+		table 'searchapp.search_user_settings'
+		id generator: 'sequence', params: [sequence: 'SEARCHAPP.HIBERNATE_SEQUENCE']
+		version false
 
-    static mapping = {
-        version false
-        table 'searchapp.search_user_settings'
-        id column: 'ID', generator: 'sequence', params: [sequence: 'SEARCHAPP.HIBERNATE_SEQUENCE']
-        userId column: 'USER_ID'
-        name column: 'SETTING_NAME'
-        value column: 'SETTING_VALUE'
-    }
+		name column: 'SETTING_NAME'
+		value column: 'SETTING_VALUE'
+	}
 
-    static boolean isConfigured() {
-        try {
-            UserSettings.count()
-            return true
-        }
-        catch (e) {
-            return false
-        }
-    }
+	static boolean isConfigured() {
+		try {
+			count()
+			true
+		}
+		catch (ignored) {
+			false
+		}
+	}
 
-    static String getSetting(Long userid, String name) {
-        try {
-            def res = UserSettings.findByUserIdAndName(userid, name)
-            return res?.value
-        }
-        catch (e) {
-            return null
-        }
-    }
+	static String getSetting(Long userid, String name) {
+		try {
+			findByUserIdAndName(userid, name)?.value
+		}
+		catch (ignored) {}
+	}
 
-    static String setSetting(Long userid, String name, String value) {
-        def res = UserSettings.findByUserIdAndName(userid, name)
-        if (res)
-            res.value = value
-        else
-            res = new UserSettings(userId: userid, name: name, value: value)
+	static String setSetting(Long userid, String name, String value) {
+		UserSettings res = findByUserIdAndName(userid, name)
+		if (res) {
+			res.value = value
+		}
+		else {
+			res = new UserSettings(userId: userid, name: name, value: value)
+		}
 
-        res.save()
-    }
+		res.save()
+	}
 }
 

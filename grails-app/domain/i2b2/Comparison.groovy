@@ -5,7 +5,7 @@
  *
  * This product includes software developed at Janssen Research & Development, LLC.
  *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License 
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software  * Foundation, either version 3 of the License, or (at your option) any later version, along with the following terms:
  * 1.	You may convey a work based on this program in accordance with section 5, provided that you retain the above notices.
  * 2.	You may convey verbatim copies of this program code as you receive it, in any medium, provided that you retain the above notices.
@@ -17,24 +17,18 @@
  *
  ******************************************************************/
 
-
 package i2b2
 
 class Comparison {
-    Long id
-    Long queryResultId1;
-    Long queryResultId2;
+	Long queryResultId1
+	Long queryResultId2
 
+	static mapping = {
+		table 'DEAPP.DE_SAVED_COMPARISON'
+		id generator: 'sequence', params: [sequence: 'SEARCHAPP.SEQ_SEARCH_DATA_ID'], column: 'COMPARISON_ID'
+		version false
 
-    static mapping = {
-        table 'DE_SAVED_COMPARISON'
-        version false
-        id generator: 'sequence', params: [sequence: 'SEQ_SEARCH_DATA_ID']
-        columns {
-            id column: 'COMPARISON_ID'
-            queryResultId1 column: 'QUERY_ID1'
-            queryResultId2 column: 'QUERY_ID2'
-        }
-    }
-
+		queryResultId1 column: 'QUERY_ID1'
+		queryResultId2 column: 'QUERY_ID2'
+	}
 }
