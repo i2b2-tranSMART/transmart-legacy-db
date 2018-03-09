@@ -34,6 +34,7 @@ class OntNodeTag {
 
 		ontnode column: 'PATH'
 		relativePosition column: 'TAGS_IDX'
+		tagtype column: 'TAG_TYPE'
 	}
 
 	static constraints = {
