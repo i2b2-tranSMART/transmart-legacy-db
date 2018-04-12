@@ -31,7 +31,7 @@ class UserSettings {
 		catch (ignored) {}
 	}
 
-	static String setSetting(Long userid, String name, String value) {
+	static void setSetting(Long userid, String name, String value) {
 		UserSettings res = findByUserIdAndName(userid, name)
 		if (res) {
 			res.value = value
