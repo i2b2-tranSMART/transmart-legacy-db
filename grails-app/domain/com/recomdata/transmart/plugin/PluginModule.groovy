@@ -1,5 +1,7 @@
 package com.recomdata.transmart.plugin
 
+import grails.converters.JSON
+
 class PluginModule {
 	Boolean active
 	PluginModuleCategory category
@@ -10,6 +12,8 @@ class PluginModule {
 	String name
 	String params
 	String version
+
+	static transients = ['paramsStr']
 
 	static belongsTo = [plugin: Plugin]
 
@@ -28,5 +32,15 @@ class PluginModule {
 		formLink nullable: true
 		formPage nullable: true
 		moduleName unique: true
+	}
+
+	void  setParamsStr(String moduleParams) {
+		if (moduleParams?.trim()) {
+			params = JSON.parse(moduleParams)?.toString()
+		}
+	}
+
+	String getParamsStr() {
+		params
 	}
 }
